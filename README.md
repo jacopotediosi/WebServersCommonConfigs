@@ -9,7 +9,7 @@ Tested on **Ubuntu Server 18.04 LTS**.
 
 # WHAT IT CONTAINS:
 
-### OpenSSH (/etc/ssh/sshd_config)
+## OpenSSH (/etc/ssh/sshd_config)
 **OpenSSH** is an **SSH Daemon** that allows you to **connect and manage** your server from remote<br>
 In this repo **we configure it to**:
 
@@ -20,14 +20,23 @@ In this repo **we configure it to**:
  - allow only 5 connected clients at the same time and disconnect them after 3 wrong passwords
  - don't print banner/last login (because we use MOTD, see below)
  - use passwords (suggested at least 20 char) for login (but you can also choose to login with keys)
- - ping connected clients with 5 packets every 60 seconds to detect and disconnect ghosts (settings ClientAliveCountMax to 0 disconnect every users in IDLE for 1 minute).
+ - ping connected clients with 5 packets every 60 seconds to detect and disconnect ghosts (setting ClientAliveCountMax to 0 disconnect every users in IDLE for 1 minute).
 
 **Installation**: `sudo apt install openssh-server`
 
-### Nginx config (/etc/nginx and /var/www/)
+**If you have a firewall like ufw**:
+
+    sudo ufw allow ssh  
+	sudo ufw enable
+
+Then edit config files as shown in this repo
+
+**Remember** to do `systemctl enable ssh` and `/etc/init.d/ssh start`
+
+## Nginx config (/etc/nginx and /var/www/)
 OpenSSL 3.0 e versione NGINX
 
-### Vsftpd (/etc/vsftpd.conf, /etc/vsftpd_user_conf/ and /etc/vsftpd.userlist)
+## Vsftpd (/etc/vsftpd.conf, /etc/vsftpd_user_conf/ and /etc/vsftpd.userlist)
 **VSFTPD** is an FTP Server Daemon that support **FTPS**<br>
 In this repo **we configure it** with the same certificate for example.com hosted by nginx, allowing only certain local users to login (no anonymous users) and we restrict them to local specified folders (for example the folder of example.com files).<br>
 We also limit clients connected at the same time to 5
@@ -52,8 +61,8 @@ In case of **trouble**:
 - https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
 - https://www.liquidweb.com/kb/configure-vsftpd-ssl/
 
-### Fail2Ban (/etc/fail2ban/)
+## Fail2Ban (/etc/fail2ban/)
 
-### MOTD (/etc/update-motd.d/)
+## MOTD (/etc/update-motd.d/)
 
-### Automated backups script (/root/backup.sh)
+## Automated backups script (/root/backup.sh)
