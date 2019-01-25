@@ -9,13 +9,6 @@ Tested on **Ubuntu Server 18.04 LTS**.
 
 # WHAT IT CONTAINS:
 
-### Automated backups script (/root/backup.sh)
-
-### Nginx config (/etc/nginx and /var/www/)
-OpenSSL 3.0 e versione NGINX
-
-### Fail2Ban (/etc/fail2ban/)
-
 ### OpenSSH (/etc/ssh/sshd_config)
 **OpenSSH** is an **SSH Daemon** that allows you to **connect and manage** your server from remote<br>
 In this repo **we configure it to**:
@@ -30,6 +23,9 @@ In this repo **we configure it to**:
  - ping connected clients with 5 packets every 60 seconds to detect and disconnect ghosts (settings ClientAliveCountMax to 0 disconnect every users in IDLE for 1 minute).
 
 **Installation**: `sudo apt install openssh-server`
+
+### Nginx config (/etc/nginx and /var/www/)
+OpenSSL 3.0 e versione NGINX
 
 ### Vsftpd (/etc/vsftpd.conf, /etc/vsftpd_user_conf/ and /etc/vsftpd.userlist)
 **VSFTPD** is an FTP Server Daemon that support **FTPS**<br>
@@ -56,4 +52,8 @@ In case of **trouble**:
 - https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
 - https://www.liquidweb.com/kb/configure-vsftpd-ssl/
 
+### Fail2Ban (/etc/fail2ban/)
+
 ### MOTD (/etc/update-motd.d/)
+
+### Automated backups script (/root/backup.sh)
