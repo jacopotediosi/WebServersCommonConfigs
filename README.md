@@ -67,8 +67,21 @@ If it throws an error:
 
     export LD_LIBRARY_PATH=/usr/local/lib
     echo  "export LD_LIBRARY_PATH=/usr/local/bin/openssl"  >>  ~/.bashrc
+And try again
 
-Then apply our configs.
+Then generate certificates:
+
+    sudo add-apt-repository ppa:certbot/certbot
+    sudo apt install python-certbot-nginx
+    sudo certbot --nginx -d example.com -d www.example.com
+    sudo certbot --nginx -d YOURREVERSEDNS -d www.YOURREVERSEDNS
+
+Then apply our configs (remember corrects chown and chmod).
+
+Then activate virtualhosts configs:
+
+    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+    sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
 
 **Remember** to do:
 
@@ -82,6 +95,7 @@ For any **trouble**:
 
  - https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
  - https://askubuntu.com/questions/1102803/upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04
+ - https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04
 
 ## Vsftpd (/etc/vsftpd.conf, /etc/vsftpd_user_conf/ and /etc/vsftpd.userlist)
 **VSFTPD** is an FTP Server Daemon that support **FTPS**<br>
