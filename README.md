@@ -83,6 +83,8 @@ Then activate virtualhosts configs:
     sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
     sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
 
+**Remember** that folders inside /var/www/ need to be chowned by www-data:www-data and chmodded to 770
+
 **Remember** to do:
 
  - `sudo systemctl restart php7.2-fpm`
