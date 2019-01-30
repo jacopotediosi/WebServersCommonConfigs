@@ -37,7 +37,11 @@ If you are connected via SSH and you want to update settings, you probably have 
 ## Nginx config (/etc/nginx/ and /var/www/)
 We now talk about the **webserver nginx**. We'll configure it together with **PHP** and **MySQL**.
 
-Our configs are **ideal for virtualhosts**; they define some security stuffs like **supports for TLS 1.3 and 1.2 only**, **ssl stapling**, **server headers hiding**, **X-XSS-Protection**, **X-Frame-Options**, **X-Content-Type-Options**, automatic redirect from **HTTP to HTTPS**, etc.  **Gzip** is enabled on all files. **HSTS is not forced** (remember to do yoursefl).
+Our configs are **ideal for different virtualhosts on same machine**;
+they define some security stuffs like **supports for TLS 1.3 and 1.2 only**, **SSL stapling**, **server headers/banners hiding**, **X-XSS-Protection**, **X-Frame-Options**, **X-Content-Type-Options**, automatic redirect from **HTTP to HTTPS**, **HSTS**, etc.
+When someone tries to connect to your webserver requesting an **hostname different from those configured** (for example your reverse dns), he'll be redirected to a simple PHP page that olny prints "**Hello World**".
+**403** "Forbidden" pages **redirect to 404** "Not found" and **direct access to 404.html returns a 404 error anyway**.
+**Gzip** is enabled on all files. 
 
 **Installation**:
 
@@ -50,7 +54,7 @@ Our configs are **ideal for virtualhosts**; they define some security stuffs lik
     sudo ufw allow 'Nginx FULL'
     sudo ufw enable
 
-Check with `nginx -v` that your NGINX version is >= 1.13 (to support TLS 1.3) and with `openssl version` that your OpenSSL is >= 1.1.1.<br>
+**Check with** `nginx -v` that your NGINX version is >= 1.13 (to support TLS 1.3) and with `openssl version` that your OpenSSL is >= 1.1.1.<br>
 If it isn't:
 
     cd /tmp/
@@ -62,26 +66,27 @@ If it isn't:
     sudo mv /usr/bin/openssl /tmp/
     sudo ln -s /usr/local/bin/openssl /usr/bin/openssl && sudo ldconfig
 
-Check if `openssl version` show the correct version<br>
-If it throws an error: 
+Now check if `openssl version` show the correct version<br>
+**If it throws an error**: 
 
     export LD_LIBRARY_PATH=/usr/local/lib
     echo  "export LD_LIBRARY_PATH=/usr/local/bin/openssl"  >>  ~/.bashrc
 And try again
 
-Then generate certificates:
+Then **generate certificates**:
 
     sudo add-apt-repository ppa:certbot/certbot
     sudo apt install python-certbot-nginx
     sudo certbot --nginx -d example.com -d www.example.com
     sudo certbot --nginx -d YOURREVERSEDNS -d www.YOURREVERSEDNS
+Certbot should manage automatically renew for your certificates (that are valid for only 90 days).
 
-Then apply our configs (remember corrects chown and chmod).
+Then **apply our configs** (remember corrects chown and chmod).
 
-Then activate virtualhosts configs:
+Then **activate virtualhosts configs**:
 
-    sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-    sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+    sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+    sudo ln -sf /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
 
 **Remember** that folders inside /var/www/ need to be chowned by www-data:www-data and chmodded to 770
 
@@ -91,7 +96,7 @@ Then activate virtualhosts configs:
 - `sudo systemctl enable php7.2-fpm`
 - `sudo systemctl restart nginx`
 - `sudo systemctl enable nginx`
-- Test TLS configs with https://dev.ssllabs.com/ssltest/ and compare with https://fearby.com/article/enabling-tls-1-3-ssl-on-a-nginx-website-on-an-ubuntu-16-04-server-that-is-using-cloudflare/
+- **Test TLS** configs with https://dev.ssllabs.com/ssltest/ and compare with https://fearby.com/article/enabling-tls-1-3-ssl-on-a-nginx-website-on-an-ubuntu-16-04-server-that-is-using-cloudflare/
 
 For any **trouble**:
 
@@ -128,4 +133,4 @@ In case of **trouble**:
 
 ## MOTD (/etc/update-motd.d/)
 
-## Automated backups script (/root/backup.sh)
+## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
