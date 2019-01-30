@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+# REQUIREMENTS: openssl
+#Remember to change below configs
+
+## CONFIG
+
+certificates=(
+    "/etc/letsencrypt/live/example.com/fullchain.pem"
+    "/etc/letsencrypt/live/example2.com/fullchain.pem"
+)
+
+certificateNames=(
+    "Example.com"
+    "Example2.com"
+)
+
+## END CONFIG
+
+
+
+expiry_date () {
+    out=$(openssl x509 -enddate -noout -in "$1" | cut -d "=" -f 2)
+    unix_date "$out"
+}
+
+unix_date () {
+    date -d "$@" +%s
+}
+
+expires_in () {
+    diff=$(( $1 - $2 ))
+    expiresInHours=$(( diff / 3600 ))
+
+    if [ $expiresInHours -gt 48 ]; then
+        echo "$(( expiresInHours / 24 )) days"
+    else
+        echo "$expiresInHours hours"
+    fi
+}
+
+
+echo ""
+echo "TLS Certificates:"
+
+
+for i in "${!certificates[@]}"; do
+    cert="${certificates[$i]}"
+
+    expires=$(expiry_date "$cert")
+    now=$(unix_date "now")
+    inAWeek=$(unix_date "1 week")
+
+    expiresIn=$(expires_in "$expires" "$now")
+
+    if [ "$expires" -le "$now" ]; then
+        echo -e "  ${certificateNames[$i]}: \e[31m▲ expired\e[0m"
+    elif [ "$expires" -le "$inAWeek" ]; then
+        echo -e "  ${certificateNames[$i]}: \e[33m● expiring soon ($expiresIn left)\e[0m"
+    else
+        echo -e "  ${certificateNames[$i]}: \e[32m● expires in $expiresIn\e[0m"
+    fi
+done

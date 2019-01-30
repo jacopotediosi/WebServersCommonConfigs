@@ -1,0 +1,13 @@
+#!/bin/bash
+SSHD_TOTAL_BANNED=$(fail2ban-client status sshd | grep -oP 'Total banned:\s*\K\d+')
+SSHD_CURR_BANNED=$(fail2ban-client status sshd | grep -oP 'Currently banned:\s*\K\d+')
+VSFTPD_TOTAL_BANNED=$(fail2ban-client status vsftpd | grep -oP 'Total banned:\s*\K\d+')
+VSFTPD_CURR_BANNED=$(fail2ban-client status vsftpd | grep -oP 'Currently banned:\s*\K\d+')
+LOGIN_TOTAL_BANNED=$(fail2ban-client status customlogin | grep -oP 'Total banned:\s*\K\d+')
+LOGIN_CURR_BANNED=$(fail2ban-client status customlogin | grep -oP 'Currently banned:\s*\K\d+')
+
+echo
+echo -e "Fail2ban stats:"
+echo -e "  SSHD:    $SSHD_TOTAL_BANNED total banned and $SSHD_CURR_BANNED currently banned"
+echo -e "  VSFTPD:  $VSFTPD_TOTAL_BANNED total banned and $VSFTPD_CURR_BANNED currently banned"
+echo -e "  LOGIN:   $LOGIN_TOTAL_BANNED total banned and $LOGIN_CURR_BANNED currently banned"
