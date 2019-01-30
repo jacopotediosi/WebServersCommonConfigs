@@ -13,7 +13,7 @@ Tested on **Ubuntu Server 18.04 LTS**.
 **OpenSSH** is an **SSH Daemon** that allows you to **connect and manage** your server from remote<br>
 In this repo **we configure it to**:
 
- - listen on default port 22 (you can choose to change it to mitigate ssh bruteforcing from automatic scanners (Chinese botnets and so on)
+ - listen on default port 22 (you can choose to change it to mitigate ssh bruteforcing from automatic scanners (Chinese botnets and so on) on 0.0.0.0 both ipv4 and ipv6
  - disallow root login and allow only specific users to login
  - force protocol 2
  - disconnect client not logged in after 1 minute (to not to waste bandwidth)
@@ -130,6 +130,37 @@ In case of **trouble**:
 - https://www.liquidweb.com/kb/configure-vsftpd-ssl/
 
 ## Fail2Ban (/etc/fail2ban/)
+**Fail2ban** scans log files and bans for a specified amount of time (updating firewall rules) IPs that show malicious signs, for example too many password failures, seeking for exploits, etc.
+Out of the box Fail2Ban comes with a lot of **filters** for various services (apache, courier, ssh, etc).
+
+**Here we'll configure it** to **protect** our **SSH** daemon, our **FTP** connection and a **simple login page of our website**.
+
+**To install**: `sudo apt install fail2ban`
+
+After installation, at /etc/fail2ban/jail.conf you can find a file with a lot of configs already ready for most commonly used services. Please don't edit this file, because it's there only for documentation purposes. Create instead a copy named "jail.local" with your real configs.
+
+If you want you can **copy&paste our configs** from this repo.
+
+**Our jail.local is setted as follows**:
+ - **Generic rule** (applied to jails which don't overwrite it): ban for 3 hours IPs that fail filters 100 times in 30 minutes
+ - **SSH jail**: ban for 15 days IPs that try wrong passwords for 5 times in 6 hours
+ - **VSFTPD jail**: ban for 5 days IPs that try wrong passwords for 6 times in 6 hours
+ - **Login jail** (custom defined): ban for 6 hours IPs that do more than 50 POST requests to "/login" in 6 hours (needs you put our file customlogin.conf inside /etc/fail2ban/filter.d/ folder)
+
+**Remember to do**: `sudo /etc/init.d/fail2ban start` and `sudo systemctl enable fail2ban`
+
+**Rapid commands**:
+- To view enabled jails: `sudo fail2ban-client status`
+- To view details of a jail: `sudo fail2ban-client status sshd` (please change "sshd" with jail name you want to view)
+- To unban a specific IP: `sudo fail2ban-client unban IP` (please change "IP" with ip you want to unban)
+
+**Demo**:
+A week after putting a server with public ipv4 online, without an associated domain and with SSH on port 22:
+
+![IPs banned from Fail2Ban after 1 week of uptime](https://raw.githubusercontent.com/jacopotediosi/WebServersCommonConfigs/master/images/image1.png)
+
+They were mainly Chinese IPs, probably part of a giant botnet of pwned devices in the world.
+But they were banned from fail2ban, so I guess that's working :D
 
 ## MOTD (/etc/update-motd.d/)
 
