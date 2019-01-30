@@ -135,7 +135,7 @@ Out of the box Fail2Ban comes with a lot of **filters** for various services (ap
 
 **Here we'll configure it** to **protect** our **SSH** daemon, our **FTP** connection and a **simple login page of our website**.
 
-**To install**: `sudo apt install fail2ban`
+**To install**: `sudo pip install pyinotify` and  `sudo apt install fail2ban`
 
 After installation, at /etc/fail2ban/jail.conf you can find a file with a lot of configs already ready for most commonly used services. Please don't edit this file, because it's there only for documentation purposes. Create instead a copy named "jail.local" with your real configs.
 
@@ -163,5 +163,9 @@ They were mainly Chinese IPs, probably part of a giant botnet of pwned devices i
 But they were banned from fail2ban, so I guess that's working :D
 
 ## MOTD (/etc/update-motd.d/)
+Coming soon!
 
 ## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
+Coming soon!
+
+TODO: domain configuration (DNS) + sendmail complete configuration (spf + opendkim + _dmarc) and little tips about opendkim compatibility with certain features of sendmail (like genericstable).
