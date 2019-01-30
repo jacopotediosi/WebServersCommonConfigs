@@ -1,0 +1,54 @@
+#Here you have to change with your real reverse dns address and with your php-fpm path.
+#This file needs to be chowned by root:root and chmodded to 644.
+#Sites-available folder should be chowned by root:root and chmodded to 755.
+
+# Default server configuration
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	return 301 https://$host$request_uri;
+}
+
+server {
+	listen 443 default_server ssl http2;
+	listen [::]:443	default_server ssl http2;
+
+	root /var/www/html/default;
+	
+	index index.php index.html index.htm;
+	
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+	
+	# Custom error codes
+	error_page 404      /404.html;	#/404.html is default 404 error page
+	error_page 403 =404 /404.html;	#403 errors redirects to 404
+	location /404.html {internal;}	#direct access to /404.html generate a 404 error
+
+	# Managed by Certbot
+	ssl_certificate /etc/letsencrypt/live/PUT-HERE-YOUR-REVERSE-DNS/fullchain.pem;		#CHANGE HERE
+	ssl_certificate_key /etc/letsencrypt/live/PUT-HERE-YOUR-REVERSE-DNS/privkey.pem;	#CHANGE HERE
+	#include /etc/letsencrypt/options-ssl-nginx.conf;
+	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+	location ~ \.php$ {
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;	#CHANGE HERE WITH YOUR PHP VERSION PATH
+		fastcgi_index index.php;
+		include fastcgi_params;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	location ~ /\.(?!well-known).* {
+		deny all;
+	}
+	location ~ /\.ht {
+		deny all;
+	}
+}
+

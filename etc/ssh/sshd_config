@@ -1,0 +1,93 @@
+# Please edit AllowUsers with usernames allowed to login via SSH separed by spaces
+# Chown this file to root:root and chmod it to 644
+# Chown the ssh folder to root:root and chmod it to 755
+
+# This is the sshd server system-wide configuration file. See sshd_config(5) for more information.
+# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+
+# CONNECTIONS
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+Protocol 2
+
+# HOSTKEYS
+#HostKey /etc/ssh/ssh_host_rsa_key
+#HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
+
+# LOGGING
+#SyslogFacility AUTH
+#LogLevel INFO
+
+# AUTHENTICATION:
+LoginGraceTime 1m
+
+MaxAuthTries 3
+MaxSessions 5
+
+PermitRootLogin no
+AllowUsers CHANGE-WITH-ALLOWED-NAMES-HERE	#CHANGE HERE
+
+#PubkeyAuthentication yes
+#AuthorizedKeysFile	.ssh/authorized_keys
+
+# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+#HostbasedAuthentication no
+# Change to yes if you don't trust ~/.ssh/known_hosts for
+# HostbasedAuthentication
+#IgnoreUserKnownHosts no
+# Don't read the user's ~/.rhosts and ~/.shosts files
+#IgnoreRhosts yes
+
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication yes
+PermitEmptyPasswords no
+
+# Change to yes to enable challenge-response passwords (beware issues with some PAM modules and threads)
+ChallengeResponseAuthentication no
+
+# KERBEROS OPTIONS
+#KerberosAuthentication no
+#KerberosOrLocalPasswd yes
+#KerberosTicketCleanup yes
+#KerberosGetAFSToken no
+
+# GSSAPI OPTIONS
+#GSSAPIAuthentication no
+#GSSAPICleanupCredentials yes
+#GSSAPIStrictAcceptorCheck yes
+#GSSAPIKeyExchange no
+
+# Set this to 'yes' to enable PAM AUTHENTICATION, account processing, and session processing.
+# If this is enabled, PAM authentication will be allowed through the ChallengeResponseAuthentication and PasswordAuthentication.
+# Depending on your PAM configuration, PAM authentication via ChallengeResponseAuthentication may bypass the setting of
+# "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without PAM authentication, then enable this but set
+# PasswordAuthentication and ChallengeResponseAuthentication to 'no'.
+UsePAM yes
+
+X11Forwarding yes
+
+# NO MOTD/LASTLOG
+PrintMotd no
+PrintLastLog no
+
+# DISCONNECT GHOSTS
+TCPKeepAlive no
+ClientAliveInterval 60
+ClientAliveCountMax 5
+
+# ALLOW CLIENT TO PASS LOCALE ENVIRONMENT VARIABLES
+AcceptEnv LANG LC_*
+
+# OVERRIDE DEFAULT OF NO SUBSYSTEMS
+Subsystem	sftp	/usr/lib/openssh/sftp-server
+
+# EXAMPLE OF OVERRIDING SETTINGS ON A PER-USER BASIS
+#Match User anoncvs
+#	X11Forwarding no
+#	AllowTcpForwarding no
+#	PermitTTY no
+#	ForceCommand cvs server

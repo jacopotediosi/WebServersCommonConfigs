@@ -1,0 +1,3 @@
+#Insert here your ftp allowed usernames separed by spaces and then remove all comments
+#This file needs to be chowned by root:root and to be chmodded 644
+USERNAME1

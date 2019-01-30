@@ -1,0 +1,3 @@
+#Rename this file with the name of the user you want to configure
+#This file and the folder containing it need to be chowned by root:root and to be chmodded 755 
+local_root=/var/www/html/example.com	#With this line you are changing his FTP Home path
