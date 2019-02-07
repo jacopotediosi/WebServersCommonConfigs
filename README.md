@@ -1,4 +1,3 @@
-
 # WHAT IS IT
 
 **WebServersCommonConfigs** is a **simple collection of common linux webserver configurations** ready-to-use and already setted up about security.
@@ -36,6 +35,8 @@ If you are connected via SSH and you want to update settings, you probably have 
 
 ## Nginx config (/etc/nginx/ and /var/www/)
 We now talk about the **webserver nginx**. We'll configure it together with **PHP** and **MySQL**.
+
+If you want, instead of following our tips, you can **generate your own configs** with this powerful tool: https://nginxconfig.io/
 
 Our configs are **ideal for different virtualhosts on same machine**;
 they define some security stuffs like **supports for TLS 1.3 and 1.2 only**, **SSL stapling**, **server headers/banners hiding**, **X-XSS-Protection**, **X-Frame-Options**, **X-Content-Type-Options**, automatic redirect from **HTTP to HTTPS**, **HSTS**, etc.
@@ -163,9 +164,25 @@ They were mainly Chinese IPs, probably part of a giant botnet of pwned devices i
 But they were banned from fail2ban, so I guess that's working :D
 
 ## MOTD (/etc/update-motd.d/)
-Coming soon!
+MOTD is used to show useful information to user immediately after his SSH login.
+Our version shows:
+
+ - **Informations** about installed distro and his kernel version
+ - **System workloads** (Processes, RAM, CPU, Memory and swap usage)
+ - Currently logged in **SSH users** and what they are doing
+ - **Expiration of certificates**
+ - **Services status**
+ - **Fail2ban statistics**
+ - Number of **upgradable packages**
+
+![Screenshot of our MOTD](https://github.com/jacopotediosi/WebServersCommonConfigs/blob/master/images/image2.png?raw=true)
+
+**To install**: `sudo apt install update-motd`
+
+Then move our files to /etc/update-motd.d/<br>
+**All files need to be chomodded to 755 and chowned to root:root**
+
+All our scripts **have been tested** with **[Shellcheck](https://www.shellcheck.net/)** to detect any **security/syntax issues**
 
 ## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
 Coming soon!
-
-TODO: domain configuration (DNS) + sendmail complete configuration (spf + opendkim + _dmarc) and little tips about opendkim compatibility with certain features of sendmail (like genericstable).
