@@ -185,7 +185,18 @@ Then move our files to /etc/update-motd.d/<br>
 All our scripts **have been tested** with **[Shellcheck](https://www.shellcheck.net/)** to detect any **security/syntax issues**
 
 ## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
-Coming soon!
+This is a simple script I wrote to **backup databases and files**.<br>
+It's composed of **three files**: *backup_files.sh*, *backup_db.sh* and *backup_db.cnf*.<br>
+It's **highly customizable** with some settings to configure in top of each file.<br>
+Please note: it **requires sendmail** to be installed and setted up.
+Its features are:
+
+ - Good **compatibility** (it's written in bash)
+ - **Zip** every backup
+ - Autorun with **crontab**
+ - **Backup rotation**
+ - **Send mail whenever an error occurs**
+ - Databases **credentials aren't visible in process list** (ps aux) since a special file (backup_db.cnf) is used to contain them instead of directly putting them inside dumping commands
 
 ## Other useful websites:
 
@@ -219,3 +230,6 @@ https://www.mail-tester.com/ <br>
 http://www.appmaildev.com/it/dkim <br>
 http://dkimvalidator.com/ <br>
 https://toolbox.googleapps.com/apps/checkmx/ (Official Website by Google)
+
+### Excellent Intrusion Detection Systems:
+https://www.snort.org/
