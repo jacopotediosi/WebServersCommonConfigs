@@ -186,3 +186,36 @@ All our scripts **have been tested** with **[Shellcheck](https://www.shellcheck.
 
 ## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
 Coming soon!
+
+## Other useful websites:
+
+### To setup sendmail with all stuffs (DKIM, SPF, DMARC etc):
+https://philio.me/setting-up-dkim-with-sendmail-on-ubuntu-14-04/
+http://meumobi.github.io/sendmail/2015/09/18/install-configure-dkim-sendmail-debian.html
+
+NB: **DKIM is not compatible with** some sendmail features, like **genericstable**.<br>
+Use postfix instead of sendmail if you want to use them.
+
+**To send a mail** (**always remember to use -f parameter to not disclose username of local users**): 
+
+**With bash:**
+
+    echo -e "Subject:${MAIL_SUBJECT}\n$1\nThis is the mail body" | sendmail -f "${MAIL_FROM}" -t "${MAIL_TO}"
+
+**With python2:**
+
+    msg = MIMEText("Simple text")
+    msg["From"] = "noreply@example.com"
+    msg["To"] = "test@test.com,test2@test.com"
+    msg["Subject"] = "Simple subject"
+    p = Popen(["/usr/sbin/sendmail", "-t", "-oi", "-f"+msg["From"]], stdin=PIPE)
+    p.communicate(msg.as_bytes())
+
+### To check DKIM Keys of your DNS records:
+https://dkimcore.org/tools/keycheck.html
+
+### To check if your mail will be sent into spam folder:
+https://www.mail-tester.com/ <br>
+http://www.appmaildev.com/it/dkim <br>
+http://dkimvalidator.com/ <br>
+https://toolbox.googleapps.com/apps/checkmx/ (Official Website by Google)
