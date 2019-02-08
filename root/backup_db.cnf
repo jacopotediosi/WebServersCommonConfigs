@@ -1,0 +1,4 @@
+#Remember to put this file inside /root and chown it as root:root and chmod it to 700 or 770. Please remove this comment.
+[mysqldump]
+user="INSERT-HERE-YOUR-USERNAME"
+password="INSERT-HERE-YOUR-PASSWORD"
