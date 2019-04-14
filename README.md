@@ -66,6 +66,7 @@ If it isn't:
     sudo make install
     sudo mv /usr/bin/openssl /tmp/
     sudo ln -s /usr/local/bin/openssl /usr/bin/openssl && sudo ldconfig
+    sudo ln -s /etc/ssl /usr/local/ssl
 
 Now check if `openssl version` show the correct version<br>
 **If it throws an error**: 
