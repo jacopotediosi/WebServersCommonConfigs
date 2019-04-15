@@ -46,7 +46,7 @@ When someone tries to connect to your webserver requesting an **hostname differe
 
 **Installation**:
 
-    sudo apt install nginx mysql-server php-fpm php-mysql
+    sudo apt install nginx nginx-extras mysql-server php-fpm php-mysql
     sudo mysql_secure_installation
     sudo nano /etc/php/7.2/fpm/php.ini and change cgi.fix_pathinfo to 0
    
