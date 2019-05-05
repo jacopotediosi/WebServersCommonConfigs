@@ -32,6 +32,11 @@ server {
 	#include /etc/letsencrypt/options-ssl-nginx.conf;
 	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 	add_header Strict-Transport-Security "max-age=31536000;" always;
+	
+	# Security headers
+	add_header X-XSS-Protection "1; mode=block";
+	add_header X-Frame-Options "DENY";
+	add_header X-Content-Type-Options nosniff;
 
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
