@@ -33,6 +33,11 @@ server {
 	ssl_certificate_key /etc/letsencrypt/live/PUT-HERE-YOUR-REVERSE-DNS/privkey.pem;	#CHANGE HERE
 	#include /etc/letsencrypt/options-ssl-nginx.conf;
 	ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+	
+	# Security headers
+	add_header X-XSS-Protection "1; mode=block";
+	add_header X-Frame-Options "DENY";
+	add_header X-Content-Type-Options nosniff;
 
 	location ~ \.php$ {
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
