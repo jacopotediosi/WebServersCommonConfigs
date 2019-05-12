@@ -39,12 +39,14 @@ server {
 	add_header X-Content-Type-Options nosniff;
 
 	location ~ \.php$ {
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-		fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;	#CHANGE HERE WITH YOUR PHP VERSION PATH
-		fastcgi_index index.php;
-		include fastcgi_params;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-	}
+                try_files $uri =404;
+                fastcgi_split_path_info ^(.+\.php)(/.+)$;
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_nam$
+                fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+                fastcgi_index index.php;
+                include fastcgi_params;
+        }
 
 	# deny access to .htaccess files, if Apache's document root
 	# concurs with nginx's one
