@@ -26,6 +26,7 @@ FILE_LOCATIONS=(
     "/root/backup_files.sh"
     "/root/backup_db.sh"
     "/root/backup_db.cnf"
+    "/var/spool/cron/crontabs/"
 )
 
 MAIL_FROM="noreply@example.com"
