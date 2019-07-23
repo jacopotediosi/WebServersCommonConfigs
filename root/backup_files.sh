@@ -8,7 +8,7 @@
 
 #Some settings
 BACKUP_NAME="Backup-Files-$(date +%Y_%m_%d)"   #This MUST contain a date to prevent subsequent backups from overwriting the previous ones
-BACKUP_FINAL_LOCATION="/root/backup_files/"    #This MUST be a folder dedicated to backups. Every other file will be automatically deleted by this script!
+BACKUP_FINAL_LOCATION="/root/backup_files/"    #This MUST be a folder dedicated to backups. Every other file inside it will be automatically deleted by this script!
 MAX_BACKUP_NUM=5
 FILE_LOCATIONS=(
     "/etc/letsencrypt/live/"
