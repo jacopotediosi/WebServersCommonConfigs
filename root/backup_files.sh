@@ -6,10 +6,10 @@ set -o nounset -o xtrace
 # Created by JacopoMii (https://www.facebook.com/jacopotediosi)
 # I'm not responsible for any data loss or for any damage caused by this script
 #
-# Put this file inside /root and chown it as root:root and chmod it to 700 or 770. It runs only as root to mantain backups secure.
+# Put this file inside /root/backup/ and chown it as root:root and chmod it to 700 or 770. It runs only as root to mantain backups secure.
 # Rapid crontab command (do a backup every saturday at 2am):
 #   MAILTO=admin@example.com
-#   0 2 * * 6 cronic /root/backup.sh
+#   0 2 * * 6 cronic /root/backup/backup_files.sh
 
 # Some settings
 BACKUP_NAME="Backup-Files-$(date +%Y_%m_%d)"        # This MUST contain a date to prevent subsequent backups from overwriting the previous ones
