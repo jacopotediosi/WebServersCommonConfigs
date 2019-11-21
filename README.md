@@ -183,20 +183,20 @@ Our version shows:
 Then move our files to /etc/update-motd.d/<br>
 **All files need to be chomodded to 755 and chowned to root:root**
 
-All our scripts **have been tested** with **[Shellcheck](https://www.shellcheck.net/)** to detect any **security/syntax issues**
+All my scripts **have been tested** with **[Shellcheck](https://www.shellcheck.net/)** to detect any **security/syntax issues**
 
-## Automated backups script (/root/backup_files.sh, /root/backup_db.sh and /root/backup_db.cnf)
-This is a simple script I wrote to **backup databases and files**.<br>
-It's composed of **three files**: *backup_files.sh*, *backup_db.sh* and *backup_db.cnf*.<br>
-It's **highly customizable** with some settings to configure in top of each file.<br>
-Please note: it **requires sendmail** to be installed and setted up.
+## Automated backup scripts (/root/backup/backup_files.sh, /root/backup/backup_db.sh and /root/backup/backup_db.cnf)
+This is a simple collection of scripts I wrote to **backup databases and files**.<br>
+It's composed of **three main files**: *backup_files.sh*, *backup_db.sh* and *backup_db.cnf*.<br>
+Please note: it **requires cronic and sendmail** to be installed and setted up.
 Its features are:
 
  - Good **compatibility** (it's written in bash)
- - **Zip** every backup
- - Autorun with **crontab**
- - **Backup rotation**
- - **Send mail whenever an error occurs**
+ - Compress with **Tar and gzip** every backup
+ - Mantains folder structures and file owners/permissions inside the tar
+ - Automatic runs with **crontab**
+ - **Automatic backup rotation**
+ - **Send mail whenever an error occurs (via cronic)**
  - Databases **credentials aren't visible in process list** (ps aux) since a special file (backup_db.cnf) is used to contain them instead of directly putting them inside dumping commands
 
 ## Other useful websites:
@@ -230,7 +230,7 @@ https://dkimcore.org/tools/keycheck.html
 https://www.mail-tester.com/ <br>
 http://www.appmaildev.com/it/dkim <br>
 http://dkimvalidator.com/ <br>
-https://toolbox.googleapps.com/apps/checkmx/ (Official Website by Google)
+https://toolbox.googleapps.com/apps/checkmx/ (Official tool by Google)
 
 ### Excellent Intrusion Detection Systems:
 https://www.snort.org/
