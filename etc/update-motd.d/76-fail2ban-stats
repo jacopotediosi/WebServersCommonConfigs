@@ -1,13 +1,23 @@
 #!/bin/bash
-SSHD_TOTAL_BANNED=$(fail2ban-client status sshd | grep -oP 'Total banned:\s*\K\d+')
-SSHD_CURR_BANNED=$(fail2ban-client status sshd | grep -oP 'Currently banned:\s*\K\d+')
-VSFTPD_TOTAL_BANNED=$(fail2ban-client status vsftpd | grep -oP 'Total banned:\s*\K\d+')
-VSFTPD_CURR_BANNED=$(fail2ban-client status vsftpd | grep -oP 'Currently banned:\s*\K\d+')
-LOGIN_TOTAL_BANNED=$(fail2ban-client status customlogin | grep -oP 'Total banned:\s*\K\d+')
-LOGIN_CURR_BANNED=$(fail2ban-client status customlogin | grep -oP 'Currently banned:\s*\K\d+')
+JAILS=(
+    "sshd"
+    "vsftpd"
+    "customlogin"
+)
 
 echo
 echo -e "Fail2ban stats:"
-echo -e "  SSHD:    $SSHD_TOTAL_BANNED total banned and $SSHD_CURR_BANNED currently banned"
-echo -e "  VSFTPD:  $VSFTPD_TOTAL_BANNED total banned and $VSFTPD_CURR_BANNED currently banned"
-echo -e "  LOGIN:   $LOGIN_TOTAL_BANNED total banned and $LOGIN_CURR_BANNED currently banned"
+
+for JAIL in "${JAILS[@]}"
+do
+    JAIL_STATUS=$(fail2ban-client status "$JAIL")
+
+    JAIL_TOTAL_BANNED=$(echo "$JAIL_STATUS" | grep -oP 'Total banned:\s*\K\d+')
+    JAIL_CURR_BANNED=$(echo "$JAIL_STATUS" | grep -oP 'Currently banned:\s*\K\d+')
+    JAIL_TOTAL_FAILED=$(echo "$JAIL_STATUS" | grep -oP 'Total failed:\s*\K\d+')
+    JAIL_CURR_FAILED=$(echo "$JAIL_STATUS" | grep -oP 'Currently failed:\s*\K\d+')
+
+    echo -e "  ${JAIL^^}:"
+    echo -e "    $JAIL_TOTAL_FAILED total failed and $JAIL_CURR_FAILED currently failed"
+    echo -e "    $JAIL_TOTAL_BANNED total banned and $JAIL_CURR_BANNED currently banned"
+done
