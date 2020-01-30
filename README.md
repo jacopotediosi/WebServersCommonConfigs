@@ -34,7 +34,7 @@ Then edit config files as shown in this repo
 If you are connected via SSH and you want to update settings, you probably have to do a system reboot because SSH cannot restart when someone is connected
 
 ## Nginx config (/etc/nginx/ and /var/www/)
-We now talk about the **webserver nginx**. We'll configure it together with **PHP** and **MySQL**.
+We now talk about the **webserver nginx**. We'll configure it together with **PHP-FPM** and **MySQL**.
 
 If you want, instead of following our tips, you can **generate your own configs** with this powerful tool: https://nginxconfig.io/
 
@@ -46,7 +46,11 @@ When someone tries to connect to your webserver requesting an **hostname differe
 
 **Installation**:
 
-    sudo apt install nginx nginx-extras mysql-server php-fpm php-mysql
+    cd /tmp && sudo wget https://nginx.org/keys/nginx_signing.key && sudo apt-key add nginx_signing.key
+    sudo nano /etc/apt/sources.list and add this two lines: 
+        deb https://nginx.org/packages/mainline/ubuntu/ bionic nginx
+        deb-src https://nginx.org/packages/mainline/ubuntu/ bionic nginx
+    sudo apt update && sudo apt install nginx mysql-server php7.2-fpm php-mysql
     sudo mysql_secure_installation
     sudo nano /etc/php/7.2/fpm/php.ini and change cgi.fix_pathinfo to 0
    
@@ -102,6 +106,7 @@ Then **activate virtualhosts configs**:
 
 For any **trouble**:
 
+ - https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#prebuilt_ubuntu
  - https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
  - https://askubuntu.com/questions/1102803/upgrade-openssl-1-1-0-to-1-1-1-in-ubuntu-18-04
  - https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04
@@ -127,7 +132,7 @@ Then edit config files as shown in this repo
 
 **Remember** to do `sudo systemctl enable vsftpd` and `sudo /etc/init.d/vsftpd start`
 
-In case of **trouble**:
+In case of any **trouble**:
 - https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
 - https://www.liquidweb.com/kb/configure-vsftpd-ssl/
 
