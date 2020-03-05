@@ -1,0 +1,11 @@
+#!/bin/bash
+echo
+echo -e "Docker status:"
+docker ps -a \
+  | sed 's/^/  /' \
+  | sed -e 's/  Up/  '`echo -e "\033[32mUp\033[0m"`'/' \
+  | sed -e 's/  Exited/  '`echo -e "\033[31mExited\033[0m"`'/' \
+  | sed -e 's/(Paused)/'`echo -e "\033[31m(Paused)\033[0m"`'/' \
+  | sed -e 's/  Restarting/  '`echo -e "\033[31mRestarting\033[0m"`'/' \
+  | sed -e 's/(healthy)/'`echo -e "\033[32m(healthy)\033[0m"`'/' \
+  | sed -e 's/(unhealthy)/'`echo -e "\033[3\m(unhealthy)\033[0m"`'/'
