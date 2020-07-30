@@ -37,7 +37,7 @@ mkdir -m 700 -p "$BACKUP_FINAL_LOCATION"
 cd "$BACKUP_FINAL_LOCATION" || exit 1
 
 # Dump DBs into dump.sql
-mysqldump --defaults-file="$DB_CONFIG" "$DB_DATABASE" > /tmp/"$BACKUP_NAME".sql
+mysqldump --defaults-file="$DB_CONFIG" --no-tablespaces "$DB_DATABASE" > /tmp/"$BACKUP_NAME".sql
 
 # Create the tar.gz file, with max compression (-9) and preserving file permissions. If mail output is too long, remove -v option.
 GZIP=-9 tar -vczPf "$BACKUP_NAME".tar.gz /tmp/"$BACKUP_NAME".sql
