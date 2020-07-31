@@ -53,4 +53,4 @@ cd "$BACKUP_FINAL_LOCATION" || exit 1
 GZIP=-9 tar --exclude='*.sock' -vczpPf "$BACKUP_NAME".tar.gz "${FILE_LOCATIONS[@]}"
 
 # Delete older backups
-rm -rf "$(ls -1t ./ | tail -n +$((MAX_BACKUP_NUM + 1)))"
+ls -tp | tail -n +$((MAX_BACKUP_NUM + 1)) | xargs -d '\n' -r rm -rf --
