@@ -40,7 +40,7 @@ cd "$BACKUP_FINAL_LOCATION" || exit 1
 mysqldump --defaults-file="$DB_CONFIG" --no-tablespaces "$DB_DATABASE" > /tmp/"$BACKUP_NAME".sql
 
 # Create the tar.gz file, with max compression (-9) and preserving file permissions. If mail output is too long, remove -v option.
-GZIP=-9 tar -vczPf "$BACKUP_NAME".tar.gz /tmp/"$BACKUP_NAME".sql
+tar -I 'gzip -9' -vcPf "$BACKUP_NAME".tar.gz /tmp/"$BACKUP_NAME".sql
 
 # Remove dump
 rm -rf /tmp/"$BACKUP_NAME".sql
