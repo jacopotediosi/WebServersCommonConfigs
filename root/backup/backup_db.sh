@@ -44,3 +44,6 @@ tar -I 'gzip -9' -vcPf "$BACKUP_NAME".tar.gz /tmp/"$BACKUP_NAME".sql
 
 # Remove dump
 rm -rf /tmp/"$BACKUP_NAME".sql
+
+# Delete older backups
+rm -rf "$(ls -1t ./ | tail -n +$((MAX_BACKUP_NUM + 1)))"
