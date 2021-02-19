@@ -50,7 +50,7 @@ mkdir -m 700 -p "$BACKUP_FINAL_LOCATION"
 cd "$BACKUP_FINAL_LOCATION" || exit 1
 
 # Create the tar.gz file, with max compression (-9) and preserving file permissions. If mail output is too long, remove -v option.
-tar -I 'gzip -9' --exclude='*.sock' -vcpPf "$BACKUP_NAME".tar.gz "${FILE_LOCATIONS[@]}"
+tar -I 'gzip -9' --warning=no-file-changed --exclude='*.sock' -vcpPf "$BACKUP_NAME".tar.gz "${FILE_LOCATIONS[@]}"
 
 # Delete older backups
 ls -tp | tail -n +$((MAX_BACKUP_NUM + 1)) | xargs -d '\n' -r rm -rf --
